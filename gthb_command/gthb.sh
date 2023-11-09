@@ -86,11 +86,11 @@ function github {
 				cd $previous_location														#
 			elif [[ !$3 ]]; then															#
 				local previous_location=$(pwd)												#
-				cd /home/$var_usr/Downloads/.42_github										#
+				cd /home/$var_usr/Downloads/.42_github/$var_project_stud					#
 				git add *																	#
 				git commit -m "update of $date" --quiet										#
 				git push --quiet															#
-				cd /home/$var_usr/Downloads/$var_project_mc									#
+				cd /home/$var_usr/Downloads/.42_github/$var_project_mc						#
 				git add *																	#
 				git commit -m "update of $date" --quiet										#
 				git push --quiet															#
@@ -161,14 +161,13 @@ function github {
 	elif [[ "$1" == "$var_update_github_cursus" ]]; then
 		local previous_location=$(pwd)
 		cd /home/$var_usr/Downloads/.42_github/$var_project_stud
-		rm -rf $var_project_stud
-		git clone "$var_web_link/Stud.git" $var_project_stud
-		cd /home/$var_usr/Documents/
-		cp -r * /home/$var_usr/Downloads/.42_github/$var_project_stud/Libft
-		cd /home/$var_usr/Downloads/.42_github/$var_project_stud
 		git add *
 		git commit -m "update of $date" --quiet
-		git push --quiet 
+		git push --quiet
+		cd /home/$var_usr/Downloads/.42_github/$var_project_mc
+		git add *
+		git commit -m "update of $date" --quiet
+		git push --quiet
 		cd $previous_location
 	###############ARGUMENT_INVALIDE###############
     else
