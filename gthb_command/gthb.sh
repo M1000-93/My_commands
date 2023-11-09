@@ -63,11 +63,11 @@ function github {
 			fi																				###############
 		elif [[ "$2" == "$var_web_github" ]]; then											#
 			if [[ "$3" == "$var_perso" ]]; then												#
-            	cd /home/$var_usr/Downloads/$var_project_stud/$var_project_stud					#
+            	cd /home/$var_usr/Downloads/.42_github/$var_project_stud					#
         	elif [[ "$3" == "$var_libft" ]]; then											#
-            	cd /home/$var_usr/Downloads/$var_project_stud/$var_project_stud/Libft				#	Github
+            	cd /home/$var_usr/Downloads/.42_github/$var_project_stud/Libft				#	Github
     		elif [[ "$3" == "$var_project_mc" || "$3" == "$var_project_piscine" ]]; then	#
-				cd /home/$var_usr/Downloads/$var_project_stud/$3									#
+				cd /home/$var_usr/Downloads/.42_github/$3									#
 			else																			#
             	cd /home/$var_usr/Downloads/.42_github										#
         	fi																				#
@@ -77,23 +77,16 @@ function github {
             #########PUSH#########
     elif [[ "$1" == "$var_push" ]]; then
         if [[ "$2" == "$var_web_github" ]]; then                    						###############
-			if [[ "$3" == "$var_project_stud" ]]; then										#
-            	local previous_location=$(pwd)                         		 				#
-            	cd /home/$var_usr/Downloads/$var_project_stud   	                				#
-            	git add *                                               					#
-            	git commit -m "update of $date" --quiet										#
-            	git push --quiet															#
-            	cd $previous_location														#
-			elif [[ "$3" == "$var_project_mc" ]]; then										#
+			if [[ "$3" == "$var_project_mc" || "$3" == "$var_project_stud" ]]; then			#
 				local previous_location=$(pwd)												#
-				cd /home/$var_usr/Downloads/$var_project_stud/$3									#
+				cd /home/$var_usr/Downloads/.42_github/$3									#
 				git add *																	#	Github
 				git commit -m "update of $date" --quiet										#
 				git push --quiet															#
 				cd $previous_location														#
 			elif [[ !$3 ]]; then															#
 				local previous_location=$(pwd)												#
-				cd /home/$var_usr/Downloads/$var_project_stud										#
+				cd /home/$var_usr/Downloads/.42_github										#
 				git add *																	#
 				git commit -m "update of $date" --quiet										#
 				git push --quiet															#
@@ -131,8 +124,8 @@ function github {
     elif [[ "$1" == "$var_clone" ]]; then													###############
         if [[ "$2" == "$var_web_github" ]]; then											#
             cd /home/$var_usr/Downloads														#
-			mkdir -pv $var_project_stud															#
-			cd $var_project_stud																	#
+			mkdir -pv .42_github															#
+			cd .42_github																	#
             if [[ "$3" == "$var_project_piscine" ||  "$3" == "$var_project_mc" ]]; then		#
                 if [[ "$3" == "$var_project_piscine" ]]; then								#
 					git clone "$var_web_link/$var_project_piscine.git" $3					#
@@ -167,12 +160,12 @@ function github {
 		fi																					###############
 	elif [[ "$1" == "$var_update_github_cursus" ]]; then
 		local previous_location=$(pwd)
-		cd /home/$var_usr/Downloads/$var_project_stud
+		cd /home/$var_usr/Downloads/.42_github/$var_project_stud
 		rm -rf $var_project_stud
 		git clone "$var_web_link/Stud.git" $var_project_stud
 		cd /home/$var_usr/Documents/
-		cp -r * /home/$var_usr/Downloads/$var_project_stud/$var_project_stud/Libft
-		cd /home/$var_usr/Downloads/$var_project_stud/$var_project_stud
+		cp -r * /home/$var_usr/Downloads/.42_github/$var_project_stud/Libft
+		cd /home/$var_usr/Downloads/.42_github/$var_project_stud
 		git add *
 		git commit -m "update of $date" --quiet
 		git push --quiet 
