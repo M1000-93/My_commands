@@ -5,13 +5,13 @@ _script_completion_github()
     prev2="${COMP_WORDS[COMP_CWORD-2]}"
     prev3="${COMP_WORDS[COMP_CWORD-3]}"
 
-    opts_first="-move -push -clone"
+    opts_first="-move -push -clone -update"
 
     opts_second="-webgithub -42git"
 
 	opts_third_move_web_github="-perso -libft My_commands Piscine_42_2023"
 	opts_third_push_web_github="Cursus My_commands"
-    opts_third_clone_web_github="Piscine_42 Cursus My_commands"
+    opts_third_clone_web_github="Piscine_42 Cursus_42 My_commands"
     opts_third_42_git="Libft"
 
     case ${COMP_CWORD} in
