@@ -163,11 +163,11 @@ function github {
 		cd /home/$var_usr/Downloads/.42_github/$var_project_stud
 		git add *
 		git commit -m "update of $date" --quiet
-		git push --quiet
+		git push
 		cd /home/$var_usr/Downloads/.42_github/$var_project_mc
 		git add *
 		git commit -m "update of $date" --quiet
-		git push --quiet
+		git push
 		cd $previous_location
 	###############ARGUMENT_INVALIDE###############
     else
