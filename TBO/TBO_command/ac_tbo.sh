@@ -1,4 +1,4 @@
-_script_completion_github()
+_script_completion_tbo()
 {
     cur="${COMP_WORDS[COMP_CWORD]}"
     prev1="${COMP_WORDS[COMP_CWORD-1]}"
@@ -62,4 +62,4 @@ _script_completion_github()
 			fi
     esac
 }
-complete -F _script_completion_github -o default github
+complete -F _script_completion_tbo -o default tbo
