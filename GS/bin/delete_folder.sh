@@ -1,176 +1,179 @@
 #!/bin/bash
 
+# Inclure les fichiers nécessaires
 . $GS_bin/tools_gs.sh
 . $GS_bin/path_gs
 . $GS_param
 
+# Fonction pour supprimer tous les dossiers GitHub et Intra configurés
 delete_all_folders() {
     
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
 
-	if [[ " ${github[@]} " =~ " $1 " || -z $1 ]]; then
-		for folder in "${github_folder[@]}"; do
-    	   	delete_folder -g "$folder"
-    	done
-    	github_folder=()  # Réinitialise la variable github_folder
-		write_to_param_file
-		echo "Tous les dossiers ont été supprimés"
-	elif [[ " ${intra[@]} " =~ " $1 " || -z $1  ]]; then
-		for folder in "${intra_folder[@]}"; do
-    	   	delete_folder -g "$folder"
-    	done
-    	intra_folder=()  # Réinitialise la variable github_folder
-		write_to_param_file
-		echo "Tous les dossiers ont été supprimés"
-	else
-		echo "\033[31mUne erreur est survenue !\033[0m"
-	fi
+    # Vérifier si l'option spécifiée est GitHub ou Intra, ou si aucune option n'est spécifiée
+    if [[ " ${github[@]} " =~ " $1 " || -z $1  ]]; then
+
+        # Boucler à travers tous les dossiers GitHub et les supprimer
+        for folder in "${github_folder[@]}"; do
+
+            delete_folder -g "$folder"  # Appel à la fonction delete_folder pour chaque dossier GitHub
+        
+		done
+    elif [[ " ${intra[@]} " =~ " $1 " || -z $1  ]]; then
+
+        # Boucler à travers tous les dossiers Intra et les supprimer
+        for folder in "${intra_folder[@]}"; do
+
+            delete_folder -i "$folder"  # Appel à la fonction delete_folder pour chaque dossier Intra
+        
+		done
+    else
+	
+		# Afficher un message d'échec
+        echo "\033[31mUne erreur est survenue !\033[0m"
+
+    fi
 }
 
 # Fonction pour supprimer un dossier avec choix
 delete_selected_folder() {
     
-	source "$GS_param"
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
+    source "$GS_param"
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
 
-	if [[ " ${github[@]} " =~ " $1 " ]]; then
-    	if [[ $2 ]]; then
-    	    var_delete_folder=$2
-	    else
-	        echo -n "Quel est le nom du dossier que vous voulez supprimer ? "
-	        read -r var_delete_folder
-	    fi
+    # Vérifier si l'option spécifiée est GitHub
+    if [[ " ${github[@]} " =~ " $1 " ]]; then
+        
+		# Vérifier si un nom de dossier est fourni en argument
+        if [[ $2 ]]; then
+            var_delete_folder=$2
+        else
 
-		# Vérifier si le dossier existe déjà dans github_folder
-	    if [[ -z "$var_delete_folder" ]]; then
-	        echo "\033[31mNom de dossier invalide. Opération annulée.\033[0m"
-	        return
-	    fi
+            # Demander à l'utilisateur le nom du dossier à supprimer parmi ceux enregistrés
+            echo "Voici les dossiers déjà enregistrés : \033[32m${github_folder[*]}\033[0m"
+            echo -n "Quel est le nom du dossier que vous voulez supprimer ?"
+            read -r var_delete_folder
 
-	    # Vérifier si le dossier existe dans github_folder
-	    if [[ "${github_folder[*]}" =~ "$var_delete_folder"  ]]; then
-	        echo -ne "\033[33mVoulez-vous vraiment supprimer le dossier $var_delete_folder ? (Yes/No)\033[0m "
-	        read -r answer
-	        verif_answer "$answer"
+        fi
 
-	        if [[ "$?" == 0 || -z "$answer" ]]; then
-	            delete_folder -g "$var_delete_folder" > /dev/null 2>&1
-	            delete_folder_from_config -g "$var_delete_folder"
-	            echo "\033[32mLe dossier a été supprimé avec succès.\033[0m"
-	        else
-	            echo "\033[31mLe dossier n'a pas été supprimé.\033[0m"
-	        fi
-	    else
-	        echo "\033[33mLe dossier $var_delete_folder n'est pas présent dans la configuration.\033[0m"
-	    fi
+        # Vérifier si le nom de dossier est valide
+        if [[ -z "$var_delete_folder" ]]; then
+            echo "Nom de dossier invalide. Opération annulée."
+            return
+        fi
+
+        # Vérifier si le dossier existe dans github_folder
+        if [[ "${github_folder[*]}" =~ "$var_delete_folder"  ]]; then
+
+            # Supprimer le dossier
+            delete_folder -g "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
+
+            # Afficher un message de réussite
+            echo -e "\033[32mLe dossier a été supprimé avec succès.\033[0m"
+
+        else
+
+            # Afficher un message d'échec
+            echo -e "\033[31mLe dossier n'existe pas dans la configuration.\033[0m"
+
+        fi
+    
+	# Vérifier si l'option spécifiée est Intra
 	elif [[ " ${intra[@]} " =~ " $1 " ]]; then
-		if [[ $2 ]]; then
-    	    var_delete_folder=$2
-	    else
-	        echo -n "Quel est le nom du dossier que vous voulez supprimer ? "
-	        read -r var_delete_folder
-	    fi
-
-		# Vérifier si le dossier existe déjà dans intra_folder
-	    if [[ -z "$var_delete_folder" ]]; then
-	        echo "\033[31mNom de dossier invalide. Opération annulée.\033[0m"
-	        return
-	    fi
-
-	    # Vérifier si le dossier existe dans intra_folder
-	    if [[ "${intra_folder[*]}" =~ "$var_delete_folder"  ]]; then
-	        echo -ne "\033[33mVoulez-vous vraiment supprimer le dossier $var_delete_folder ? (Yes/No)\033[0m "
-	        read -r answer
-	        verif_answer "$answer"
-
-	        if [[ "$?" == 0 || -z "$answer" ]]; then
-	            delete_folder -i "$var_delete_folder" > /dev/null 2>&1
-	            delete_folder_from_config -i "$var_delete_folder"
-	            echo "\033[32mLe dossier a été supprimé avec succès.\033[0m"
-	        else
-	            echo "\033[31mLe dossier n'a pas été supprimé.\033[0m"
-	        fi
-	    else
-	        echo "\033[33mLe dossier $var_delete_folder n'est pas présent dans la configuration.\033[0m"
-	    fi
-	else
-		echo "\033[31mUne erreur est survenue !\033[0m"
-	fi
-}
-
-delete_folder_from_config() {
-	
-	local folder="$2"
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
-
-	if [[ " ${github[@]} " =~ " $1 " ]]; then
-		# Si folder correspond au premier élément de la liste github_folder
-    	local new_github_folder=()
-	    for item in "${github_folder[@]}"; do
-	        [[ "$item" != "$folder" ]] && new_github_folder+=("$item")
-	    done
-
-	    # Mettre à jour le fichier de configuration
-	    github_folder=("${new_github_folder[@]}")
-	    write_to_param_file
-
-	elif [[ " ${intra[@]} " =~ " $1 " ]]; then
-		local new_intra_folder=()
-		local new_intra_link=()
-	    
-		for ((i=0; i<=${#intra_folder[@]}; i++)); do
-    		local item="${intra_folder[$i]}"
-		    if [[ "$item" != "$folder" ]]; then
-		    	if [ -z "${new_intra_folder[@]}" ]; then
-			    	new_intra_folder=("$item")
-			        new_intra_link=("${var_links_intra[$i]}")
-			    else
-					new_intra_folder+=("$item")
-			        new_intra_link+=("${var_links_intra[$i]}")
-				fi
-			fi
-		done
-
-	    # Mettre à jour le fichier de configuration
-	    intra_folder=("${new_intra_folder[@]}")
-		var_links_intra=("${new_intra_link[@]}")
-	    write_to_param_file
 		
-	else
-		echo "\033[31mUne erreur est survenue !\033[0m"
-	fi
+		# Vérifier si un nom de dossier est fourni en argument
+        if [[ $2 ]]; then
+            var_delete_folder=$2
+        else
+
+            # Demander à l'utilisateur le nom du dossier à supprimer parmi ceux enregistrés
+            echo -e "Voici les dossiers déjà enregistrés : \033[32m${intra_folder[*]}\033[0m"
+            echo -n "Quel est le nom du dossier que vous voulez supprimer ?"
+            read -r var_delete_folder
+			
+        fi
+
+        # Vérifier si le nom de dossier est valide
+        if [[ -z "$var_delete_folder" ]]; then
+            echo "Nom de dossier invalide. Opération annulée."
+            return
+        fi
+
+        # Vérifier si le dossier existe dans intra_folder
+        if [[ "${intra_folder[*]}" =~ "$var_delete_folder"  ]]; then
+
+            # Supprimer le dossier
+            delete_folder -i "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
+
+            # Afficher un message de réussite
+            echo -e "\033[32mLe dossier a été supprimé avec succès.\033[0m"
+
+        else
+
+            # Afficher un message d'échec
+            echo -e "\033[31mLe dossier n'existe pas dans la configuration.\033[0m"
+
+        fi
+    else
+
+		# Afficher un message d'échec
+        echo "\033[31mUne erreur est survenue !\033[0m"
+
+    fi
 }
 
+# Fonction pour supprimer un dossier GitHub ou Intra
 delete_folder() {
-	
-	local folder="$2"
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
-	local previous_location="$(pwd)"
+    
+    local folder="$2"
 
-	if [[ " ${github[@]} " =~ " $1 " ]]; then
-		echo "\033[33mSuppression du dossier $folder...\033[0m"
-    	cd "$path_folder_github"
-		rm -rf "$folder"
-		if [ $? -eq 0 ]; then
-    	    echo -e "\033[32mSuppression de $folder réussi.\033[0m"
-    	else
-    	    echo -e "\033[31mÉchec de la suppression de $folder.\033[0m"
-    	fi
-	elif [[ " ${intra[@]} " =~ " $1 " ]]; then
-		echo "\033[33mSuppression du dossier $folder...\033[0m"
-    	cd "$path_folder_intra"
-		rm -rf "$folder"
-		if [ $? -eq 0 ]; then
-    	    echo -e "\033[32mSuppression de $folder réussi.\033[0m"
-    	else
-    	    echo -e "\033[31mÉchec de la suppression de $folder.\033[0m"
-    	fi
-	else
-		echo "\033[31mUne erreur est survenue !\033[0m"
-	fi
-	cd "$previous_location"
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
+
+    # Vérifier si l'option spécifiée est GitHub
+    if [[ " ${github[@]} " =~ " $1 " ]]; then
+
+        echo -e "\033[33mSuppression de $folder...\033[0m"
+        rm -rf "$path_folder_github/$folder" > /dev/null 2>&1
+
+		# Vérifie si la suppression a réussi
+        if [ $? -eq 0 ]; then
+            
+			# Afficher un message de réussite
+			echo -e "\033[32mSuppression de $folder réussie.\033[0m"
+			
+        else
+
+			# Afficher un message d'échec
+            echo -e "\033[31mÉchec de la suppression de $folder.\033[0m"
+
+        fi
+    # Vérifier si l'option spécifiée est Intra
+    elif [[ " ${intra[@]} " =~ " $1 " ]]; then
+        echo -e "\033[33mSuppression de $folder...\033[0m"
+
+        # Supprimer le dossier
+        rm -rf "$path_folder_intra/$folder" > /dev/null 2>&1
+
+		# Vérifie si la suppression a réussi
+        if [ $? -eq 0 ]; then
+            
+			# Afficher un message de réussite
+			echo -e "\033[32mSuppression de $folder réussie.\033[0m"
+
+        else
+            
+			# Afficher un message d'échec
+			echo -e "\033[31mÉchec de la suppression de $folder.\033[0m"
+
+        fi
+
+    else
+
+		# Afficher un message d'érreur
+        echo "\033[31mUne erreur est survenue !\033[0m"
+
+    fi
 }
