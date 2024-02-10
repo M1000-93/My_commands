@@ -40,33 +40,54 @@ write_to_param_file() {
     source "$GS_param"
 }
 
+#!/bin/bash
+
+# Fonction pour déplacer vers un dossier GitHub ou Intra
 move_to() {
+    
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
 
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
+    # Vérifier si l'option spécifiée est GitHub
+    if [[ " ${github[@]} " =~ " $1 " ]]; then
+        
+        # Demander à l'utilisateur s'il souhaite se déplacer vers un dossier GitHub
+        echo -en "Voulez-vous vous déplacer dans votre dossier \033[33mGitHub ?\033[32m "
+        read -r var_answer
+        echo -en "\033[0m"  # Réinitialiser les couleurs de la console
+        verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
-	if [[ " ${github[@]} " =~ " $1 " ]]; then
-		echo -en "Voulez-vous vous deplacer dans votre dossier \033[33mgithub ?\033[32m "
-		read -r var_answer
-		echo -en "\033[0m"
-		verif_answer "$var_answer"
-		if [[ "$?" == 0 ]]; then
-			previous_location=$(pwd)
-			cd $path_folder_github
-		fi
-	elif [[ " ${intra[@]} " =~ " $1 " ]]; then
-		echo -en "Voulez-vous vous deplacer dans votre dossier \033[33mintra ?\033[32m "
-		read -r var_answer
-		echo -en "\033[0m"
-		verif_answer "$var_answer"
-		if [[ "$?" == 0 ]]; then
-			previous_location=$(pwd)
-			cd $path_folder_intra
-		fi
-	else
-		echo -e "\033[31mUne erreur est survenue !\033[0m"
-	fi
+        # Vérifier si la réponse est positive
+        if [[ "$?" == 0 ]]; then
+            
+            previous_location=$(pwd)  # Enregistrer l'emplacement précédent
+            cd $path_folder_github  # Se déplacer vers le dossier GitHub
+            
+        fi
+
+    # Vérifier si l'option spécifiée est Intra
+    elif [[ " ${intra[@]} " =~ " $1 " ]]; then
+        
+        # Demander à l'utilisateur s'il souhaite se déplacer vers un dossier Intra
+        echo -en "Voulez-vous vous déplacer dans votre dossier \033[33mIntra ?\033[32m "
+        read -r var_answer
+        echo -en "\033[0m"  # Réinitialiser les couleurs de la console
+        verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
+
+        # Vérifier si la réponse est positive
+        if [[ "$?" == 0 ]]; then
+            
+            previous_location=$(pwd)  # Enregistrer l'emplacement précédent
+            cd $path_folder_intra  # Se déplacer vers le dossier Intra
+            
+        fi
+    else
+        # Afficher un message d'erreur si aucune option valide n'est spécifiée
+        echo -e "\033[31mUne erreur est survenue !\033[0m"
+    fi
 }
+
+
 
 # Fonction pour obtenir le chemin du répertoire à utiliser pour le clonage de dossiers GitHub ou Intra.
 get_folder() {
@@ -179,55 +200,73 @@ get_folder() {
 }
 
 
+# Fonction pour ajouter un dossier GitHub ou Intra
 add_folder() {
+    
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
 
-	local github=("-g" "-github")
-    local intra=("-i" "-intra")
+    # Vérifier si l'option spécifiée est GitHub ou si aucune option n'est spécifiée
+    if [[ " ${github[@]} " =~ " $1 " || -z "$1" ]]; then
+        
+        # Boucle jusqu'à ce qu'une réponse valide soit obtenue
+        while true; do
+            
+            # Demander à l'utilisateur s'il souhaite ajouter un dossier GitHub
+            echo -n "Voulez-vous ajouter un dossier GitHub ? \033[33m(Yes/No)\033[0m "
+            read -r var_answer
+            verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
-	if [[ " ${github[@]} " =~ " $1 " || -z " $1 " ]]; then
-		while true; do
-        	echo -n "Voulez-vous ajouter un dossier GitHub ? \033[33m(Yes/No)\033[0m "
-			read -r var_answer
-    	    verif_answer "$var_answer"
-    	    if [[ "$?" == 0 || -z "$var_answer" ]]; then
-	            echo -e "\033[33mAttention : les noms doivent être identiques à ceux de votre GitHub !\033[0m"
-				echo -n "Quel est le nom du dossier ? "
-				read -r  var_folder_name
-	            github_folder+=("$var_folder_name")
-	        else
-				write_to_param_file
-	            break
-	        fi
-	    done
-	elif [[ " ${intra[@]} " =~ " $1 " || -z " $1 " ]]; then
-		while true; do
-			echo -n "Voulez-vous ajouter un dossier intra ? \033[33m(Yes/No)\033[0m "
-			read -r var_answer
-    	    verif_answer "$var_answer"
-    	    if [[ "$?" == 0 || -z "$var_answer" ]]; then
-				echo -e "\033[33mAttention : les noms doivent être identiques à ceux de votre Intra !\033[0m"
-        		echo -n "Quel est le nom du dossier ? "
-				read -r  folder
-				echo -ne "Quel est le lien intra du projet ? \033[33m(lien complet)\033[0m "
-				read -r var_link
+            # Vérifier si la réponse est positive
+            if [[ "$?" == 0 || -z "$var_answer" ]]; then
+                
+                echo -e "\033[33mAttention : les noms doivent être identiques à ceux de votre GitHub !\033[0m"
+                echo -n "Quel est le nom du dossier ? "
+                read -r  var_folder_name
+                github_folder+=("$var_folder_name")  # Ajouter le nom du dossier à la liste des dossiers GitHub
+                
+            else
+                write_to_param_file  # Appel à la fonction pour écrire dans le fichier de paramètres
+                break  # Sortir de la boucle
+            fi
+        done
+    # Vérifier si l'option spécifiée est Intra ou si aucune option n'est spécifiée
+    elif [[ " ${intra[@]} " =~ " $1 " || -z "$1" ]]; then
+        
+        # Boucle jusqu'à ce qu'une réponse valide soit obtenue
+        while true; do
+            
+            # Demander à l'utilisateur s'il souhaite ajouter un dossier Intra
+            echo -n "Voulez-vous ajouter un dossier Intra ? \033[33m(Yes/No)\033[0m "
+            read -r var_answer
+            verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
-				# Vérification du format du lien
-				prefix="git@vogsphere.42paris.fr:vogsphere/intra-uuid-"
-				if [[ "$var_link" == "$prefix"*"$var_login" ]]; then
-				    intra_folder=("${intra_folder[@]}" "$folder")
-					var_links_folder=("${var_links_intra[@]}" "$var_link")
-				else
-				    echo "Le format du lien est invalide. Assurez-vous qu'il commence par '$prefix' et se termine par '$var_login'."
-				fi
+            # Vérifier si la réponse est positive
+            if [[ "$?" == 0 || -z "$var_answer" ]]; then
+                
+                echo -e "\033[33mAttention : les noms doivent être identiques à ceux de votre Intra !\033[0m"
+                echo -n "Quel est le nom du dossier ? "
+                read -r  folder
+                echo -ne "Quel est le lien intra du projet ? \033[33m(lien complet)\033[0m "
+                read -r var_link
 
-			else
-				write_to_param_file
-				break
-			fi
-	    done
-	else
-		echo "\033[31mUne erreur est survenue !\033[0m"
-	fi
+                # Vérification du format du lien
+                prefix="git@vogsphere.42paris.fr:vogsphere/intra-uuid-"
+                if [[ "$var_link" == "$prefix"*"$var_login" ]]; then
+                    intra_folder=("${intra_folder[@]}" "$folder")  # Ajouter le nom du dossier à la liste des dossiers Intra
+                    var_links_folder=("${var_links_intra[@]}" "$var_link")  # Ajouter le lien du dossier à la liste des liens Intra
+                else
+                    echo "Le format du lien est invalide. Assurez-vous qu'il commence par '$prefix' et se termine par '$var_login'."
+                fi
+
+            else
+                write_to_param_file  # Appel à la fonction pour écrire dans le fichier de paramètres
+                break  # Sortir de la boucle
+            fi
+        done
+    else
+        echo "\033[31mUne erreur est survenue !\033[0m"  # Afficher un message d'erreur si aucune option valide n'est spécifiée
+    fi
 }
 
 verif_answer_result=$(verif_answer "$var_confirmation")
