@@ -25,6 +25,7 @@ variable_conf_usr() {
     # Demander à l'utilisateur s'il souhaite utiliser un répertoire pour cloner ses dossiers Intra
     read -rp "Voulez-vous utiliser ce répertoire pour cloner vos dossiers Intra ? " var_answer
     get_folder -i "$var_answer"  # Appel à la fonction pour récupérer le dossier Intra
+	get_project -i
     add_folder -i  # Appel à la fonction pour ajouter le dossier Intra
 
     write_to_param_file  # Appel à la fonction pour écrire dans le fichier de paramètres

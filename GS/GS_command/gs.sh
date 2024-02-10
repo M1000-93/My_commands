@@ -27,12 +27,12 @@ function git_simple {
     ######### VARIABLES NIVEAU 2 #########
 
     ## GITHUB && INTRA ##
-    # Options pour la mise à jour
-    local var_push=("-u" "-update")
     # Options pour le clonage
     local var_clone=("-c" "-cl" "-clone")
     # Options pour le push
     local var_push=("-p" "-push")
+	# Options pour le pull
+    local var_pull=("-u" "-update" "-pull")
     # Options pour l'ajout
     local var_add=("-a" "-add")
 	# Options pour la suppression
@@ -183,6 +183,41 @@ function git_simple {
 
 			return
 
+		# Commandes relatives a "git pull"
+		elif [[ " ${var_pull[@]} " =~ " $2 " ]]; then
+			# Pull de tout les dossiers Github enregistre
+            if [[ " ${var_all[@]} " =~ " $3 " || -z "$3" ]]; then
+
+				# Exécute le script de pull de tout les dossiers Github
+                pull_all_folders -g
+				return
+
+			# Pull d'un seul dossier Github pre-defini ou a definir
+            elif [[ " ${var_choose[@]} " =~ " $3 " ]]; then
+
+				# Pull d'un seul dossier Github pre-defini
+                if [[ $4 ]]; then
+
+					# Exécute le script de pull du dossier Github pre-defini
+                    pull_selected_folder -g $4
+				
+				# Pull d'un seul dossier Github a definir
+                elif [[ -z $4 ]]; then
+
+					# Exécute le script de pull du dossier Github a definir
+                    pull_selected_folder -g
+
+                # Message d'erreur - Probleme : Choose Pull Github !
+        		else
+            		echo "\033[31mUne erreur est survenue !\033[0m"
+        		fi
+			
+			# Message d'erreur - Probleme : Pull Github !
+			else
+            	echo "\033[31mUne erreur est survenue !\033[0m"
+        	fi
+
+			return
 		# Commandes relatives a "git clone"
         elif [[ " ${var_clone[@]} " =~ " $2 " ]]; then
 
@@ -318,6 +353,41 @@ function git_simple {
         
 			return
 
+		# Commandes relatives a "git pull"
+		elif [[ " ${var_pull[@]} " =~ " $2 " ]]; then
+			# Pull de tout les dossiers Intra enregistre
+            if [[ " ${var_all[@]} " =~ " $3 " || -z "$3" ]]; then
+
+				# Exécute le script de pull de tout les dossiers Intra
+                pull_all_folders -i
+				return
+
+			# Pull d'un seul dossier Intra pre-defini ou a definir
+            elif [[ " ${var_choose[@]} " =~ " $3 " ]]; then
+
+				# Pull d'un seul dossier Intra pre-defini
+                if [[ $4 ]]; then
+
+					# Exécute le script de pull du dossier Intra pre-defini
+                    pull_selected_folder -i $4
+				
+				# Pull d'un seul dossier Intra a definir
+                elif [[ -z $4 ]]; then
+
+					# Exécute le script de pull du dossier Intra a definir
+                    pull_selected_folder -i
+
+                # Message d'erreur - Probleme : Choose Pull Intra !
+        		else
+            		echo "\033[31mUne erreur est survenue !\033[0m"
+        		fi
+			
+			# Message d'erreur - Probleme : Pull Intra !
+			else
+            	echo "\033[31mUne erreur est survenue !\033[0m"
+        	fi
+
+			return
 		# Commandes relatives a "git clone"
 		elif [[ " ${var_clone[@]} " =~ " $2 " ]]; then
 

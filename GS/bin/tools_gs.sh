@@ -75,7 +75,7 @@ move_to() {
         verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
         # Vérifier si la réponse est négative
-        if [[ "$?" == 0 ]]; then
+        if [[ "$?" == 1 ]]; then
             
             previous_location=$(pwd)  # Enregistrer l'emplacement précédent
 			cd $path_folder_intra  # Se déplacer vers le dossier Intra
