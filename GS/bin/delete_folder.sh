@@ -70,9 +70,6 @@ delete_selected_folder() {
             # Supprimer le dossier
             delete_folder -g "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
 
-            # Afficher un message de réussite
-            echo -e "\033[32mLe dossier a été supprimé avec succès.\033[0m"
-
         else
 
             # Afficher un message d'échec
@@ -92,7 +89,7 @@ delete_selected_folder() {
             echo -e "Voici les dossiers déjà enregistrés : \033[32m${intra_folder[*]}\033[0m"
             echo -n "Quel est le nom du dossier que vous voulez supprimer ?"
             read -r var_delete_folder
-			
+
         fi
 
         # Vérifier si le nom de dossier est valide
@@ -106,9 +103,6 @@ delete_selected_folder() {
 
             # Supprimer le dossier
             delete_folder -i "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
-
-            # Afficher un message de réussite
-            echo -e "\033[32mLe dossier a été supprimé avec succès.\033[0m"
 
         else
 

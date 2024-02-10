@@ -70,9 +70,6 @@ push_selected_folder() {
             # Pousser le dossier vers son dépôt distant
             push_folder -g "$var_push_folder"  # Appel à la fonction push_folder pour pousser le dossier vers son dépôt distant
 
-            # Afficher un message de réussite
-            echo -e "\033[32mLe dossier a été poussé vers son dépôt distant avec succès.\033[0m"
-
         else
 
             # Afficher un message d'échec
@@ -106,9 +103,6 @@ push_selected_folder() {
 
             # Pousser le dossier vers son dépôt distant
             push_folder -i "$var_push_folder"  # Appel à la fonction push_folder pour pousser le dossier vers son dépôt distant
-
-            # Afficher un message de réussite
-            echo -e "\033[32mLe dossier a été poussé vers son dépôt distant avec succès.\033[0m"
 
         else
 
