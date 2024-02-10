@@ -128,13 +128,15 @@ pull_folder() {
     # Vérifier si l'option spécifiée est GitHub
     if [[ " ${github[@]} " =~ " $1 " ]]; then
 
-        echo -e "\033[33mPousser $folder vers son dépôt distant...\033[0m\n"
-        cd "$path_folder_github/$folder" || return  # Se déplacer vers le dossier GitHub
+        echo -e "\033[33mPull du dossier $folder depuis son dépôt distant...\033[0m\n"
+       
+		# Se déplacer vers le dossier GitHub
+	    cd "$path_folder_github/$folder" || return
 
 		# Pull depuis le dépôt distant
         git pull origin main > /dev/null 2>&1
 
-		# Vérifie si le push a réussi
+		# Vérifie si le pull a réussi
         if [ $? -eq 0 ]; then
             
 			# Afficher un message de réussite
@@ -143,12 +145,13 @@ pull_folder() {
         else
 
 			# Afficher un message d'échec
-            echo -e "\033[31mÉchec du push pour $folder.\033[0m\n"
+            echo -e "\033[31mÉchec du pull pour $folder.\033[0m\n"
 
         fi
     # Vérifier si l'option spécifiée est Intra
     elif [[ " ${intra[@]} " =~ " $1 " ]]; then
-        echo -e "\033[33mPousser $folder vers son dépôt distant...\033[0m"
+        
+		echo -e "\033[33mPull du dossier $folder depuis son dépôt distant...\033[0m\n"
 
         # Se déplacer vers le dossier Intra
         cd "$path_folder_intra/$folder" || return  
@@ -156,7 +159,7 @@ pull_folder() {
         # Pull depuis le dépôt distant
         git pull origin main > /dev/null 2>&1
 
-		# Vérifie si le push a réussi
+		# Vérifie si le pull a réussi
         if [ $? -eq 0 ]; then
             
 			# Afficher un message de réussite
