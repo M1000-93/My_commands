@@ -143,7 +143,7 @@ push_folder() {
 		fi
 
         # Pousser les modifications vers le dépôt distant
-        git push > /dev/null 2>&1
+        git push origin main > /dev/null 2>&1
 
 		# Vérifie si le push a réussi
         if [ $? -eq 0 ]; then
@@ -174,7 +174,7 @@ push_folder() {
 		fi
 
         # Pousser les modifications vers le dépôt distant
-        git push > /dev/null 2>&1
+        git push origin main > /dev/null 2>&1
 
 		# Vérifie si le push a réussi
         if [ $? -eq 0 ]; then
