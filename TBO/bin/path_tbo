@@ -1,8 +1,0 @@
-local MF="$HOME/Documents"
-local F42="$MF/42_Paris"
-local MC="$F42/Others/My_commands"
-local TBO="$HOME/.TBO"
-local TBO_config="$TBO/src/configuration.sh"
-local TBO_param="$TBO/data/conf"
-local TBO_commands="$TBO/TBO_command"
-local TBO_bin="$TBO/bin"
