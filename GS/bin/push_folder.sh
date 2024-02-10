@@ -133,7 +133,7 @@ push_folder() {
         echo -e "\033[33mPousser $folder vers son dépôt distant...\033[0m\n"
         cd "$path_folder_github/$folder" || return  # Se déplacer vers le dossier GitHub
 
-		git add *
+		git add -A *
 
 		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
 		echo "$output" | sed -n '1p;$p'
@@ -160,7 +160,10 @@ push_folder() {
         # Se déplacer vers le dossier Intra
         cd "$path_folder_intra/$folder" || return  
 
-		git add *
+		git add -A *
+
+		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
+		echo "$output" | sed -n '1p;$p'
 
         # Pousser les modifications vers le dépôt distant
         git push > /dev/null 2>&1
