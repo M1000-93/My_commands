@@ -136,7 +136,11 @@ push_folder() {
 		git add -A *
 
 		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
-		echo "$output" | sed -n '1p;$p'
+		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
+			echo -e "\033[32mYour branch is up to date with 'origin/main'."
+		else
+			echo -e "\033[36m$output" | sed -n '1p;$p'
+		fi
 
         # Pousser les modifications vers le dépôt distant
         git push > /dev/null 2>&1
@@ -163,7 +167,11 @@ push_folder() {
 		git add -A *
 
 		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
-		echo "$output" | sed -n '1p;$p'
+		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
+			echo -e "\033[32mYour branch is up to date with 'origin/main'."
+		else
+			echo -e "\033[36m$output" | sed -n '1p;$p'
+		fi
 
         # Pousser les modifications vers le dépôt distant
         git push > /dev/null 2>&1
