@@ -57,12 +57,12 @@ move_to() {
         echo -en "\033[0m"  # Réinitialiser les couleurs de la console
         verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
-        # Vérifier si la réponse est positive
+        # Vérifier si la réponse est négative
         if [[ "$?" == 0 ]]; then
             
             previous_location=$(pwd)  # Enregistrer l'emplacement précédent
-            cd $path_folder_github  # Se déplacer vers le dossier GitHub
-            
+			cd $path_folder_github  # Se déplacer vers le dossier GitHub
+
         fi
 
     # Vérifier si l'option spécifiée est Intra
@@ -74,17 +74,19 @@ move_to() {
         echo -en "\033[0m"  # Réinitialiser les couleurs de la console
         verif_answer "$var_answer"  # Appel à la fonction de vérification de la réponse
 
-        # Vérifier si la réponse est positive
+        # Vérifier si la réponse est négative
         if [[ "$?" == 0 ]]; then
             
             previous_location=$(pwd)  # Enregistrer l'emplacement précédent
-            cd $path_folder_intra  # Se déplacer vers le dossier Intra
-            
+			cd $path_folder_intra  # Se déplacer vers le dossier Intra
+
         fi
+
     else
         # Afficher un message d'erreur si aucune option valide n'est spécifiée
         echo -e "\033[31mUne erreur est survenue !\033[0m"
     fi
+
 }
 
 

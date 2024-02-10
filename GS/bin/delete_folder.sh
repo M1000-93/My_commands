@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Inclure les fichiers nécessaires
 . $GS_bin/tools_gs.sh
 . $GS_bin/path_gs
@@ -69,6 +67,7 @@ delete_selected_folder() {
 
             # Supprimer le dossier
             delete_folder -g "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
+			delete_folder_from_config -g "$var_delete_folder" # Appel à la fonction delete_folder_from_config pour supprimer le dossier de conf
 
         else
 
@@ -103,6 +102,7 @@ delete_selected_folder() {
 
             # Supprimer le dossier
             delete_folder -i "$var_delete_folder"  # Appel à la fonction delete_folder pour supprimer le dossier
+			delete_folder_from_config -i "$var_delete_folder" # Appel à la fonction delete_folder_from_config pour supprimer le dossier de conf
 
         else
 
@@ -118,10 +118,73 @@ delete_selected_folder() {
     fi
 }
 
+# Fonction pour supprimer un dossier de la configuration
+delete_folder_from_config() {
+    
+    local folder="$2"
+    local github=("-g" "-github")  # Options pour les dossiers GitHub
+    local intra=("-i" "-intra")     # Options pour les dossiers Intra
+
+    # Vérifier si l'option spécifiée est GitHub
+    if [[ " ${github[@]} " =~ " $1 " ]]; then
+        
+        # Supprimer le dossier de github_folder s'il existe
+        local new_github_folder=()
+        for item in "${github_folder[@]}"; do
+            [[ "$item" != "$folder" ]] && new_github_folder+=("$item")
+        done
+
+        # Mettre à jour le fichier de configuration
+        github_folder=("${new_github_folder[@]}")
+        write_to_param_file
+
+		# Afficher un message de réussite
+        echo -e "\033[32mDossier supprimé avec succès !\033[0m"
+    
+    # Vérifier si l'option spécifiée est Intra
+    elif [[ " ${intra[@]} " =~ " $1 " ]]; then
+        
+        # Boucle à travers tous les éléments de intra_folder
+		for ((i=0; i<${#intra_folder[@]}; i++)); do
+		    # Récupérer l'élément actuel de intra_folder
+		    local item="${intra_folder[$i]}"
+		
+		    # Vérifier si l'élément actuel est différent du dossier à supprimer
+		    if [[ "$item" != "$folder" ]]; then
+		        # Si new_intra_folder est vide, initialiser avec l'élément actuel
+		        if [ -z "${new_intra_folder[@]}" ]; then
+		            new_intra_folder=("$item")
+		            new_intra_link=("${var_links_intra[$i]}")
+		        else
+		            # Si new_intra_folder n'est pas vide, ajouter l'élément actuel à la liste
+		            new_intra_folder+=("$item")
+		            new_intra_link+=("${var_links_intra[$i]}")
+		        fi
+		    fi
+		done
+
+        # Mettre à jour le fichier de configuration
+        intra_folder=("${new_intra_folder[@]}")
+        var_links_intra=("${new_intra_link[@]}")
+        write_to_param_file
+
+		# Afficher un message de réussite
+        echo -e "\033[32mDossier supprimé avec succès !\033[0m"
+        
+    else
+
+		# Afficher un message d'échec
+        echo "\033[31mUne erreur est survenue !\033[0m"
+
+    fi
+}
+
+
 # Fonction pour supprimer un dossier GitHub ou Intra
 delete_folder() {
     
     local folder="$2"
+	local previous_location=$(pwd)
 
     local github=("-g" "-github")  # Options pour les dossiers GitHub
     local intra=("-i" "-intra")     # Options pour les dossiers Intra
@@ -170,4 +233,6 @@ delete_folder() {
         echo "\033[31mUne erreur est survenue !\033[0m"
 
     fi
+
+	cd $previous_location
 }

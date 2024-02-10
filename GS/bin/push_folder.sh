@@ -122,6 +122,7 @@ push_selected_folder() {
 push_folder() {
     
     local folder="$2"
+	local previous_location=$(pwd)
 
     local github=("-g" "-github")  # Options pour les dossiers GitHub
     local intra=("-i" "-intra")     # Options pour les dossiers Intra
@@ -176,4 +177,6 @@ push_folder() {
         echo "\033[31mUne erreur est survenue !\033[0m"
 
     fi
+
+	cd $previous_location
 }

@@ -139,7 +139,7 @@ function git_simple {
 		if [[ ( "$path_folder_github" && "$path_folder_github" != "$(pwd)/" ) || " ${var_move[@]} " =~ " $2 " ]]; then
             
 			# Deplacement vers Github ou l'Intra : cas Github
-            move_to -g
+			move_to -g
 
         fi
 		
@@ -275,7 +275,7 @@ function git_simple {
         if [[ ( "$path_folder_intra" && "$path_folder_intra" != "$(pwd)/" ) || " ${var_move[@]} " =~ " $2 " ]]; then
             
 			# Exécute le script de deplacement vers le dossier Intra
-            move_to -i
+			move_to -i
 
         fi
 
