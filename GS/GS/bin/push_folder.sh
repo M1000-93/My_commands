@@ -144,7 +144,7 @@ push_folder() {
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\033[36m$first_line$last_line"
+			echo -e "\n\033[36m$first_line$last_line"
 		fi
 
         # Pousser les modifications vers le dépôt distant
@@ -180,7 +180,7 @@ push_folder() {
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\033[36m$first_line$last_line"
+			echo -e "\n\033[36m$first_line$last_line"
 		fi
 
         # Pousser les modifications vers le dépôt distant
