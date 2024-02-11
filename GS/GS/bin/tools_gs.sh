@@ -50,7 +50,7 @@ intra_connection(){
 
 	# Demande le login à l'utilisateur puis fait une mise à jour des variables dans log.txt
 	echo -en "\nLogin        : \033[32m"
-	read var_login || write_to_param_file
+	read -e var_login || write_to_param_file
 	echo -en "\033[0m"
 
 	# Demande le mot de passe de l'utilisateur en remplaçant les caractères par des "*" et en terminant par un \n
@@ -59,11 +59,11 @@ intra_connection(){
 	    if [[ -z $char ]]; then
 	        break
 	    fi
-	    echo -n "*"
+
+		echo -n "*"
 	    password+="$char"
 	done
 	echo -e "\033[0m\n"
-	
 	# Connecte l'utilisateur et sauvegarde ces cookies pour permettre la récupération des projets Intra
 	curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -b "$GS_data/cookie.out" -d "username=${var_login}&password=${password}" -c "$GS_data/cookie_sessions.out" -b "$GS_data/cookie.out" -L --max-redirs 2 -o /dev/null $post_link
 }
@@ -165,7 +165,7 @@ get_folder() {
 				fi
 			fi
             echo -ne "Quel repertoire voulez-vous utilisez ? \033[33m$HOME/"
-            read -r path_github
+            read -e -r path_github
 			echo -en "\033[0m"
             if [[ -n "$path_github" ]]; then
                 path_folder_github=$HOME/$path_github/
@@ -189,7 +189,7 @@ get_folder() {
 				fi
 			fi
             echo -ne "Quel repertoire voulez-vous utilisez ? \033[33m$HOME/"
-            read -r path_intra
+            read -e -r path_intra
 			echo -en "\033[0m"
             if [[ -n "$path_intra" ]]; then
                 path_folder_intra=$HOME/$path_intra/

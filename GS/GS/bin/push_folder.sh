@@ -137,7 +137,7 @@ push_folder() {
 
 		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
 		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
-			echo -e "\033[32mYour branch is up to date with 'origin/main'."
+			echo -e "\033[32mYour branch is up to date with 'origin/main'.\033[0m"
 		else
 
 			# Récupérer la première et la dernière ligne
@@ -145,7 +145,7 @@ push_folder() {
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\033[36m$first_line\n$last_line"
+			echo -e "\033[36m$first_line\n\n$last_line\033[0m"
 
 		fi
 
@@ -175,7 +175,7 @@ push_folder() {
 
 		output=$(git commit -m "PUSH_GS | Update of $folder - DATE : $(date)")
 		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
-			echo -e "\033[32mYour branch is up to date with 'origin/main'."
+			echo -e "\033[32mYour branch is up to date with 'origin/main'.\033[0m"
 		else
 
 			# Récupérer la première et la dernière ligne
@@ -183,7 +183,7 @@ push_folder() {
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\033[36m$first_line\n$last_line"
+			echo -e "\033[36m$first_line\n\n$last_line\033[0m"
 
 		fi
 
