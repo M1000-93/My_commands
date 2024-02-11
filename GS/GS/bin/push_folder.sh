@@ -139,12 +139,14 @@ push_folder() {
 		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
 			echo -e "\033[32mYour branch is up to date with 'origin/main'."
 		else
+
 			# Récupérer la première et la dernière ligne
 			first_line=$(echo "$output" | head -n 1)
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\n\033[36m$first_line$last_line"
+			echo -e "\033[36m$first_line\n$last_line"
+
 		fi
 
         # Pousser les modifications vers le dépôt distant
@@ -175,12 +177,14 @@ push_folder() {
 		if [[ "$output" == *"On branch main"* && "$output" == *"Your branch is up to date with 'origin/main'."* && "$output" == *"nothing to commit, working tree clean"* ]]; then
 			echo -e "\033[32mYour branch is up to date with 'origin/main'."
 		else
+
 			# Récupérer la première et la dernière ligne
 			first_line=$(echo "$output" | head -n 1)
 			last_line=$(echo "$output" | tail -n 1)
 
 			# Afficher les lignes avec la couleur souhaitée
-			echo -e "\n\033[36m$first_line$last_line"
+			echo -e "\033[36m$first_line\n$last_line"
+
 		fi
 
         # Pousser les modifications vers le dépôt distant
