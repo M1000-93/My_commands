@@ -29,7 +29,7 @@ variable_conf_usr() {
 	echo -en "\033[0m"
     get_folder -i "$var_answer"  # Appel à la fonction pour récupérer le dossier Intra
     
-	echo "=============== Recuperation =============="
+	echo "=============== Connection Intra =============="
 	add_folder -i  # Appel à la fonction pour ajouter le dossier Intra
 
     write_to_param_file  # Appel à la fonction pour écrire dans le fichier de paramètres
