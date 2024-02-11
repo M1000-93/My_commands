@@ -11,6 +11,8 @@ alias gspl="git_simple"
 
 function git_simple {
 
+	source ~/.GS/bin/path_gs
+
     ######### VARIABLES NIVEAU 1 #########
 
     # Options de configuration
@@ -140,6 +142,9 @@ function git_simple {
             
 			# Deplacement vers Github ou l'Intra : cas Github
 			move_to -g
+			if [[ " ${var_move[@]} " =~ " $2 " ]]; then
+				return
+			fi
 
         fi
 		
@@ -311,6 +316,9 @@ function git_simple {
             
 			# Exécute le script de deplacement vers le dossier Intra
 			move_to -i
+			if [[ " ${var_move[@]} " =~ " $2 " ]]; then
+				return
+			fi
 
         fi
 

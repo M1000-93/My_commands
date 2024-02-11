@@ -3,5 +3,5 @@ var_github_link="git@github.com:M1000-93"
 path_folder_github="/home/mechard/Documents/"
 github_folder=(42_Paris My_commands)
 path_folder_intra="/home/mechard/Downloads/"
-intra_folder=(Libft gnl ft_printf push_swap)
-var_links_intra=(git@vogsphere.42paris.fr:vogsphere/intra-uuid-d6358c9a-5f9c-427d-90e6-c097fef3c0cb-5288950-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-1b979c13-8022-4116-a082-2e4c4a0e6e87-5311447-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-80ac660f-03a0-4f7b-87b7-0512a6abc770-5311446-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-f8a1a705-bec8-4228-b341-f60840aeface-5389117-mechard)
+intra_folder=(born2beroot ft_printf get_next_line libft fdf push_swap)
+var_links_intra=(git@vogsphere.42paris.fr:vogsphere/intra-uuid-e5e144dd-7868-4de7-9a2d-def7cf296a75-5311449-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-80ac660f-03a0-4f7b-87b7-0512a6abc770-5311446-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-1b979c13-8022-4116-a082-2e4c4a0e6e87-5311447-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-d6358c9a-5f9c-427d-90e6-c097fef3c0cb-5288950-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-53ada4f0-9889-4a5c-a67f-e6e289cd6714-5463403-mechard git@vogsphere.42paris.fr:vogsphere/intra-uuid-f8a1a705-bec8-4228-b341-f60840aeface-5389117-mechard)
