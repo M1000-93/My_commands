@@ -1,6 +1,0 @@
-local GS="$HOME/.GS"
-local GS_data="$GS/data"
-local GS_param="$GS_data/conf"
-local GS_commands="$GS/GS_command"
-local GS_bin="$GS/bin"
-local GS_config="$GS_bin/configuration.sh"

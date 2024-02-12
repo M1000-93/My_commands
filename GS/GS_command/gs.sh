@@ -11,7 +11,7 @@ alias gspl="git_simple"
 
 function git_simple {
 
-	source ~/.GS/bin/path_gs
+	source /home/mechard/.GS/bin/path_gs
 
     ######### VARIABLES NIVEAU 1 #########
 
@@ -23,8 +23,8 @@ function git_simple {
     local var_intra=("-i" "-intra")
 	# Options pour spécifier le chemin
 	local var_path=("-p" "-path")
-	# Options pour spécifier le dossier
-	local var_folder=("-f" "-folder")
+	# Options pour mettre a jour les dossiers
+	local var_update=("-u" "-update" "-a" "-add" )
 
     ######### VARIABLES NIVEAU 2 #########
 
@@ -56,9 +56,7 @@ function git_simple {
 
     ## LOCAL ##
     # Chargement des fonctions auxiliaires
-	source /home/mechard/.GS/bin/path_gs
 	. $GS_bin/tools_gs.sh
-	. $GS_bin/path_gs
 	. $GS_bin/push_folder.sh
 	. $GS_bin/clone_folder.sh
 	. $GS_bin/delete_folder.sh
@@ -108,8 +106,8 @@ function git_simple {
 
         fi
 
-	# Commandes concernant l'ajout un dossier
-    elif [[ " ${var_folder[@]} " =~ " $1 " ]]; then
+	# Commandes concernant la maj des dossiers
+    elif [[ " ${var_update[@]} " =~ " $1 " ]]; then
 
         # Ajoute les dossiers GitHub et Intra
 		if [[ -z "$2" ]]; then
@@ -307,7 +305,7 @@ function git_simple {
         	echo "\033[31mUne erreur est survenue !\033[0m"
 			return
         fi
-
+	
 	# Commandes concernant les dossiers de l'Intra
 	elif [[ " ${var_intra[@]} " =~ " $1 " ]]; then
 
